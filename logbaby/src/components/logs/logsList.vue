@@ -1,28 +1,80 @@
 <template>
   <q-card class="logsList">
-    <q-card-section class="row justify-end">
-     <q-btn flat round color="primary" icon="mdi-filter"></q-btn>
-     <q-btn flat round color="disabled" icon="mdi-playlist-edit"></q-btn>
-    </q-card-section>
-    <q-card-section  class="q-pt-none">
+    <!-- <q-card-section class="row justify-between">
+      <q-card flat class="filterCard col-9">
+        <q-card-section class="q-pa-none">
+          <q-select
+            outlined
+            v-model="filterCategories"
+            multiple
+            clearable
+            clear-icon="mdi-close-circle-outline"
+            :options="categories"
+            label="Categories"
+            stack-label
+            color="primary"
+            dense
+            option-value="id"
+            option-label="text"
+            placeholder="SELECT"
+            use-chips
+            class
+          >
+            <template v-slot:selected v-if="filterCategories">
+              <q-chip
+                v-for="(selection, key) in filterCategories"
+                :key="key+'selected'"
+                dense
+                :color="selection.color"
+                text-color="white"
+                class="q-my-none q-ml-xs q-mr-none"
+                removable
+                @remove="test(selection.id)"
+              >
+                <q-avatar color="white" :text-color="selection.color" :icon="selection.icon" />
+                {{ selection.text }}
+              </q-chip>
+            </template>
+          </q-select>
+        </q-card-section>
+        <q-card-section>HI</q-card-section>
+      </q-card>
+
+      <div class="row align-start justify-end col-3">
+        <q-btn flat round color="primary" icon="mdi-filter"></q-btn>
+        <q-btn flat round color="primary" icon="mdi-information"></q-btn>
+        <q-btn flat round color="disabled" icon="mdi-playlist-edit"></q-btn>
+      </div>
+    </q-card-section>-->
+    <q-card-section class="q-pt-none">
       <q-table
+        clearable
+        flat
+        virtual-scroll
+        hide-bottom
+        label="Categories"
+        stack-labels
+        :pagination.sync="pagination"
         :data="logsDisplayed"
         :columns="columns"
         row-key="id"
-        flat
-        virtual-scroll
-        :pagination.sync="pagination"
         :rows-per-page-options="[0]"
         class="logsTable"
       >
         <template v-slot:body="props">
           <q-tr :props="props" :class="`bg-${categoriesById[props.row.category].color}`">
-            <q-td key="category" :props="props" class="text-h5 text-bold">{{categoriesById[props.row.category].text}}</q-td>
+            <q-td
+              key="category"
+              :props="props"
+              class="text-h5 text-bold"
+            >{{categoriesById[props.row.category].text}}</q-td>
             <q-td key="startDate" :props="props">{{dateFormat(props.row.startDate)}}</q-td>
             <q-td key="endDate" :props="props">{{dateFormat(props.row.endDate)}}</q-td>
-            <q-td key="edit" :props="props"><q-icon size="md" name="mdi-playlist-edit" /></q-td>
+            <q-td key="edit" :props="props">
+              <q-icon size="md" name="mdi-playlist-edit" />
+            </q-td>
           </q-tr>
-         </template>
+        </template>
       </q-table>
     </q-card-section>
   </q-card>
@@ -45,6 +97,7 @@ export default {
     }
   },
   data: () => ({
+    filterCategories: null,
     pagination: {
       rowsPerPage: 0
     }
@@ -70,7 +123,7 @@ export default {
           name: 'startDate',
           required: true,
           label: 'Start',
-          align: 'center',
+          align: 'left',
           field: row => row.startDate,
           format: val => `${val}`,
           sortable: true
@@ -79,7 +132,7 @@ export default {
           name: 'endDate',
           required: true,
           label: 'End',
-          align: 'center',
+          align: 'left ',
           field: row => row.endDate,
           format: val => `${val}`,
           sortable: true
@@ -98,8 +151,17 @@ export default {
     }
   },
   methods: {
+    test (e) {
+      console.log(e)
+      console.log(this.filterCategories.findIndex(el => el.id === e))
+      console.log(this.filterCategories)
+      if (this.filterCategories.length - 1 < 1) {
+        this.filterCategories = null
+      } else {
+        this.$delete(this.filterCategories, this.filterCategories.findIndex(el => el.id === e))
+      }
+    },
     dateFormat (date) {
-      console.log(date)
       if (isValid(date)) {
         let now = new Date()
         let formatNow = formatDate(now, 'YYYY-MM-DD')
@@ -107,7 +169,7 @@ export default {
         if (date.substring(0, 10) === formatNow.substring(0, 10)) {
           return `Today${date.substring(10, 19)}`
         } else if (Number(date.substring(8, 10)) === Number(formatNow.substring(8, 10) - 1)) {
-          return `Yesterday${date.substring(10, 19)}`
+          return `Yesterday${date.substring(10, 20)}`
         } else {
           return date
         }
@@ -118,9 +180,34 @@ export default {
 </script>
 
 <style scoped>
-.logsList {
+/* .logsList {
   height: 100%;
   width: 100%;
-}
+} */
+/* .logsTable {
+  height: 60vh;
+} */
+</style>
+<style lang="sass">
+.logsTable
+  /* max height is important */
+  .q-table__middle
+    max-height: 60vh
 
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th
+    /* bg color is important for th; just specify one */
+    background-color: #fff
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
 </style>

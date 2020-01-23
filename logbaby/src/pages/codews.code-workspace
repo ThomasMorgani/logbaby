@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "/home/dean/Documents/SRC/PROJECTS/LOGBABY/pwa"
+    }
+  ],
+  "settings": {
+    "prettier.semi": false,
+    "prettier.singleQuote": true
+  }
+}
