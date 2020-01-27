@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     itemsDisplayed () {
-      let items = this.items
+      let items = [...this.items]
       items.sort((a, b) => {
         if (a.text > b.text) {
           return 1

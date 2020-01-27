@@ -81,28 +81,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import { date } from 'quasar'
 const { isValid, formatDate } = date
 export default {
   name: 'logsList',
-  props: {
-    categories: {
-      type: Array,
-      required: true
-    },
-    logs: {
-      type: Array,
-      required: false,
-      default: () => []
-    }
-  },
   data: () => ({
     filterCategories: null,
     pagination: {
-      rowsPerPage: 0
+      rowsPerPage: 0,
+      sortBy: 'startDate',
+      descending: true
     }
   }),
   computed: {
+    ...mapState({
+      categories: state => state.mainStore.logCategories,
+      logs: state => state.mainStore.logs
+    }),
     categoriesById () {
       let categories = {}
       this.categories.forEach(cat => { categories[cat.id] = cat })

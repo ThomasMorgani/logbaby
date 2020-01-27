@@ -3,7 +3,7 @@
     v-model="isActive"
     show-if-above
     :mini="!isActive || isMini"
-    :width="350"
+    :width="width"
     :breakpoint="500"
     bordered
     content-class="bg-grey-3"
@@ -38,9 +38,29 @@
     <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
       <q-btn dense round unelevated color="accent" icon="mdi-chevron-left" @click="isMini = true" />
     </div>
-    <div v-for="tabItem in tabItems" :key="tabItem.name+'row'" class="q-row">
-      <template v-if="activeTab=== 'add'">
-        <addLogQuick></addLogQuick>
+    <div class="q-row q-mx-sm align-center q-mt-md">
+      <template v-if="activeTab === 'add'">
+        <q-card class="q-pa-md ">
+        <q-btn color="primary" rounded size="lg" class="full-width text-bold">
+          <div class="row items-center no-wrap">
+            <q-icon left name="mdi-playlist-plus" />
+            <div class="text-center">
+              ADD NEW
+            </div>
+          </div>
+        </q-btn>
+        </q-card>
+        <addLogQuick  class="q-mt-md"></addLogQuick>
+ <q-card class="q-pa-md q-mt-md">
+                  <q-btn disabled color="primary" rounded size="md" class="full-width text-bold">
+          <div class="row items-center no-wrap">
+            <q-icon left name="mdi-clock-outline" />
+            <div class="text-center">
+              ADD RECENT
+            </div>
+          </div>
+        </q-btn>
+ </q-card>
       </template>
     </div>
   </q-drawer>
@@ -53,6 +73,7 @@ export default {
   name: 'sideDrawerLogs',
   components: {
     addLogQuick
+
   },
   data: () => ({
     isActive: false,
@@ -85,6 +106,18 @@ export default {
       }
     ]
   }),
+  computed: {
+    width () {
+      const sizes = {
+        xs: 250, // adjust layout, tabs above logs
+        sm: 250, // adjust layout, tabs above logs
+        md: 300,
+        lg: 500,
+        xl: 600
+      }
+      return sizes[this.$q.screen.name] || 400
+    }
+  },
   methods: {
     drawerClick (e) {
       console.log(e)
