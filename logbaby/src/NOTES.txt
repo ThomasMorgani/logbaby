@@ -10,7 +10,12 @@ profile card
   -user top of sideDrawer, top of profile page
   -see example on quasar docs half way down with aciotn button/image
 
+left panel/sideDrawer
+  -see if other tabs need as project progresses
+    -move to vuex if fits other pages
 
 timers
   -when active, save time and timer state to localstorage
     -on load, if start time, timer state active and no end time (or w.e) resume timer
+  -while running timers open a footer so it can be displayed when browisng away from page
+    -global store required or app root?
