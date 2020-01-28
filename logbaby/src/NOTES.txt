@@ -19,3 +19,7 @@ timers
     -on load, if start time, timer state active and no end time (or w.e) resume timer
   -while running timers open a footer so it can be displayed when browisng away from page
     -global store required or app root?
+
+logs
+  -fix scrolling to log on add (dont scroll to top, scroll to log)
+  -set style of selected log

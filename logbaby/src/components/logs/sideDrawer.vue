@@ -40,27 +40,26 @@
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
       <template v-if="activeTab === 'add'">
-        <q-card class="q-pa-md ">
-        <q-btn color="primary" rounded size="lg" class="full-width text-bold">
-          <div class="row items-center no-wrap">
-            <q-icon left name="mdi-playlist-plus" />
-            <div class="text-center">
-              ADD NEW
+        <q-card class="q-pa-md">
+          <q-btn color="primary" rounded size="lg" class="full-width text-bold">
+            <div class="row items-center no-wrap">
+              <q-icon left name="mdi-playlist-plus" />
+              <div class="text-center">ADD NEW</div>
             </div>
-          </div>
-        </q-btn>
+          </q-btn>
         </q-card>
-        <addLogQuick  class="q-mt-md"></addLogQuick>
- <q-card class="q-pa-md q-mt-md">
-                  <q-btn disabled color="primary" rounded size="md" class="full-width text-bold">
-          <div class="row items-center no-wrap">
-            <q-icon left name="mdi-clock-outline" />
-            <div class="text-center">
-              ADD RECENT
+        <addLogQuick class="q-mt-md"></addLogQuick>
+        <q-card class="q-pa-md q-mt-md">
+          <q-btn disabled color="primary" rounded size="md" class="full-width text-bold">
+            <div class="row items-center no-wrap">
+              <q-icon left name="mdi-clock-outline" />
+              <div class="text-center">ADD RECENT</div>
             </div>
-          </div>
-        </q-btn>
- </q-card>
+          </q-btn>
+        </q-card>
+      </template>
+      <template v-if="activeTab === 'info'">
+        <logDetails></logDetails>
       </template>
     </div>
   </q-drawer>
@@ -68,12 +67,13 @@
 
 <script>
 import addLogQuick from 'components/logs/addLogQuick'
+import logDetails from 'components/logs/logDetails'
 
 export default {
   name: 'sideDrawerLogs',
   components: {
-    addLogQuick
-
+    addLogQuick,
+    logDetails
   },
   data: () => ({
     isActive: false,

@@ -54,15 +54,21 @@
         hide-bottom
         label="Categories"
         stack-labels
-        :pagination.sync="pagination"
         :data="logsDisplayed"
         :columns="columns"
-        row-key="id"
         :rows-per-page-options="[0]"
+        row-key="id"
+        :pagination.sync="pagination"
+        table-style="max-height: 70vh"
+        ref="logTable"
         class="logsTable"
       >
         <template v-slot:body="props">
-          <q-tr :props="props" :class="`bg-${categoriesById[props.row.category].color}`">
+          <q-tr
+            :props="props"
+            :class="`bg-${categoriesById[props.row.category].color}`"
+            @click="rowClick(props.row)"
+          >
             <q-td
               key="category"
               :props="props"
@@ -93,7 +99,8 @@ export default {
       rowsPerPage: 0,
       sortBy: 'startDate',
       descending: true
-    }
+    },
+    selected: []
   }),
   computed: {
     ...mapState({
@@ -171,6 +178,21 @@ export default {
           return date
         }
       }
+    },
+    rowClick (row) {
+      console.log(row)
+      this.$store.dispatch('logSelect', row)
+    }
+  },
+  mounted () {
+    setTimeout(() => {
+      console.log(this.$refs)
+    }, 2000)
+  },
+  watch: {
+    logs () {
+      // console.log(this.$refs.logTable)
+      this.$refs.logTable.$refs.virtScroll.scrollTo(0)
     }
   }
 }
@@ -189,7 +211,7 @@ export default {
 .logsTable
   /* max height is important */
   .q-table__middle
-    max-height: 60vh
+    /*max-height: 60vh*/
 
   .q-table__top,
   .q-table__bottom,

@@ -34,6 +34,7 @@ export const mainStore = {
         id: 5
       }
     ],
+    logSelected: {},
     logs: []
   },
   getters: {},
@@ -57,6 +58,9 @@ export const mainStore = {
         modules.logsSet(state.logs)
         resolve()
       })
+    },
+    logSelect ({ commit }, data) {
+      commit('setStateItem', { key: 'logSelected', value: data })
     }
   }
 }
