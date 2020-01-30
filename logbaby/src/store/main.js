@@ -34,7 +34,7 @@ export const mainStore = {
         id: 5
       }
     ],
-    logSelected: {},
+    logSelected: null,
     logs: []
   },
   getters: {},

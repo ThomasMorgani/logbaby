@@ -167,13 +167,16 @@ export default {
     },
     dateFormat (date) {
       if (isValid(date)) {
-        let now = new Date()
+        const now = new Date()
+        const currentYear = now.getFullYear()
         let formatNow = formatDate(now, 'YYYY-MM-DD')
         // console.log(date)
         if (date.substring(0, 10) === formatNow.substring(0, 10)) {
           return `Today${date.substring(10, 19)}`
         } else if (Number(date.substring(8, 10)) === Number(formatNow.substring(8, 10) - 1)) {
           return `Yesterday${date.substring(10, 20)}`
+        } else if (currentYear === Number(formatNow.substring(0, 4))) {
+          return date.substring(5, 20)
         } else {
           return date
         }

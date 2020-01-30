@@ -35,7 +35,7 @@
         :class="`bg-white text-${tab.color}`"
       />
     </q-tabs>
-    <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
+    <div class="q-mini-drawer-hide absolute" style="top: 25px; right: -17px; z-index: 4;">
       <q-btn dense round unelevated color="accent" icon="mdi-chevron-left" @click="isMini = true" />
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
@@ -61,6 +61,9 @@
       <template v-if="activeTab === 'info'">
         <logDetails></logDetails>
       </template>
+      <template v-if="activeTab === 'edit'">
+        <logEdit></logEdit>
+      </template>
     </div>
   </q-drawer>
 </template>
@@ -68,12 +71,14 @@
 <script>
 import addLogQuick from 'components/logs/addLogQuick'
 import logDetails from 'components/logs/logDetails'
+import logEdit from 'components/logs/logEdit'
 
 export default {
   name: 'sideDrawerLogs',
   components: {
     addLogQuick,
-    logDetails
+    logDetails,
+    logEdit
   },
   data: () => ({
     isActive: false,

@@ -4,7 +4,18 @@
       <p>Select a log to view details.</p>
     </q-card-section>
     <q-card-section v-else>
-      <p v-for="detail in Object.keys(details)" :key="detail">{{detail}}:{{details[detail]}}</p>
+      <q-list>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon size="lg" :color="details.color" :name="details.icon" />
+          </q-item-section>
+          <q-item-section :class="`text-h5 text-bold text-${details.color}`">{{details.category}}</q-item-section>
+        </q-item>
+        <q-item dense v-for="detail in detailsDisplayed" :key="detail">
+          <q-item-section :class="`text-uppercase text-bold `">{{detail}}:</q-item-section>
+          <q-item-section>{{details[detail]}}</q-item-section>
+        </q-item>
+      </q-list>
     </q-card-section>
   </q-card>
 </template>
@@ -20,14 +31,23 @@ export default {
     details () {
       let details = {}
       const cat = this.logCategories[this.logCategories.findIndex(el => el.id === this.logSelected.category)]
-      details = {
-        category: cat.text || 'UNK',
-        color: cat.color || 'primary',
-        icon: cat.icon || 'mdi-baby',
-        start: this.logSelected.startDate || '',
-        end: this.logSelected.endDate || ''
+      if (cat) {
+        details = {
+          category: cat.text || 'UNK',
+          color: cat.color || 'primary',
+          icon: cat.icon || 'mdi-baby',
+          start: this.logSelected.startDate || '',
+          end: this.logSelected.endDate || '',
+          length: '2hrs, 3min',
+          amount: '12abc',
+          note: 'Example notes',
+          modified: ''
+        }
       }
       return details
+    },
+    detailsDisplayed () {
+      return ['start', 'end', 'length', 'units', 'note', 'modified']
     }
   }
 }
