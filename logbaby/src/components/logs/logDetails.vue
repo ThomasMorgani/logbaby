@@ -5,15 +5,18 @@
     </q-card-section>
     <q-card-section v-else>
       <q-list>
-        <q-item>
+        <q-item :class="`bg-${details.color}`">
           <q-item-section avatar>
+            <q-avatar size="xl" color="secondary" >
+
             <q-icon size="lg" :color="details.color" :name="details.icon" />
+            </q-avatar>
           </q-item-section>
-          <q-item-section :class="`text-h5 text-bold text-${details.color}`">{{details.category}}</q-item-section>
+          <q-item-section side :class="`col-shrink text-h5 text-bold text-secondary`">{{details.category}}</q-item-section>
         </q-item>
         <q-item dense v-for="detail in detailsDisplayed" :key="detail">
-          <q-item-section :class="`text-uppercase text-bold `">{{detail}}:</q-item-section>
-          <q-item-section>{{details[detail]}}</q-item-section>
+          <q-item-section :class="`text-subtitle1 text-uppercase text-bold text-primary`">{{detail}}:</q-item-section>
+          <q-item-section  class="text-weight-medium">{{details[detail]}}</q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
@@ -22,26 +25,32 @@
 
 <script>
 import { mapState } from 'vuex'
+import modules from '../../modules.js'
+import { date } from 'quasar'
+const { getDateDiff } = date
 export default {
   computed: {
     ...mapState({
       logCategories: state => state.mainStore.logCategories,
-      logSelected: state => state.mainStore.logSelected
+      logSelected: state => state.mainStore.logSelected,
+      theme: state => state.theme
     }),
     details () {
       let details = {}
       const cat = this.logCategories[this.logCategories.findIndex(el => el.id === this.logSelected.category)]
+      console.log(getDateDiff(this.logSelected.startDate, this.logSelected.endDate))
+      console.log(modules.dateDifferenceDisplayed(this.logSelected.startDate, this.logSelected.endDate))
       if (cat) {
         details = {
           category: cat.text || 'UNK',
           color: cat.color || 'primary',
           icon: cat.icon || 'mdi-baby',
-          start: this.logSelected.startDate || '',
-          end: this.logSelected.endDate || '',
-          length: '2hrs, 3min',
-          amount: '12abc',
-          note: 'Example notes',
-          modified: ''
+          start: modules.dateFormatDisplayed(this.logSelected.startDate) || '-',
+          end: modules.dateFormatDisplayed(this.logSelected.endDate) || '-',
+          length: modules.dateDifferenceDisplayed(this.logSelected.startDate, this.logSelected.endDate) || '-',
+          units: '-',
+          note: '-',
+          modified: '-'
         }
       }
       return details
@@ -49,6 +58,8 @@ export default {
     detailsDisplayed () {
       return ['start', 'end', 'length', 'units', 'note', 'modified']
     }
+  },
+  created () {
   }
 }
 </script>

@@ -1,15 +1,15 @@
 <template>
   <div>
     <q-list bordered class="q-mb-lg text-h6 text-primary col-12">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple :class="`bg-${selectedItem.color}`">
         <q-item-section avatar>
-          <q-avatar circle :color="selectedItem.color">
-            <q-icon :name="selectedItem.icon" color="white" />
+            <q-avatar size="xl" color="secondary" >
+            <q-icon size="lg" :color="selectedItem.color" :name="selectedItem.icon" />
           </q-avatar>
         </q-item-section>
-        <q-item-section :class="`text-${selectedItem.color}`">{{selectedItem.text}}</q-item-section>
+        <q-item-section :class="`text-h5 text-bold text-secondary`">{{selectedItem.text}}</q-item-section>
         <q-item-section side>
-          <q-icon v-if="selectedItem.id === 1999" name="mdi-cursor-pointer" color="primary" />
+          <q-icon v-if="selectedItem.id === 1999" name="mdi-cursor-pointer" color="secondary" />
         </q-item-section>
       </q-item>
       <q-menu transition-show="scale" fit auto-close transition-hide="scale">

@@ -1,4 +1,6 @@
 import modules from '../modules.js'
+import { colors } from 'quasar'
+
 export const mainStore = {
   namespaced: false,
   state: {
@@ -10,7 +12,7 @@ export const mainStore = {
         id: 1
       },
       {
-        icon: 'mdi-baby-bottle',
+        icon: 'mdi-bottle-wine',
         text: 'Bottle Feed',
         color: 'blue',
         id: 2
@@ -35,7 +37,17 @@ export const mainStore = {
       }
     ],
     logSelected: null,
-    logs: []
+    logs: [],
+    theme: { // Defaults, api will overwrite
+      primary: '#027BE3',
+      secondary: '#fff',
+      accent: '#9C27B0',
+      dark: '#1d1d1d',
+      positive: '#21BA',
+      negative: '#C10015',
+      info: '#31CCEC',
+      warning: '#F2C037'
+    }
   },
   getters: {},
   mutations: {
@@ -61,6 +73,11 @@ export const mainStore = {
     },
     logSelect ({ commit }, data) {
       commit('setStateItem', { key: 'logSelected', value: data })
+    },
+    themeSet ({ commit, state }) {
+      Object.keys(state.theme).forEach(color => {
+        colors.setBrand(color, state.theme[color])
+      })
     }
   }
 }
