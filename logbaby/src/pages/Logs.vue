@@ -13,7 +13,7 @@
     </div>-->
     <sideDrawer></sideDrawer>
     <div class="column col-6 content-around justify-start col-grow">
-      <logsList   class="logList"></logsList>
+      <logsList class="logList"></logsList>
     </div>
   </div>
 </template>
@@ -32,12 +32,12 @@ export default {
     logs: []
   }),
   methods: {
-    logsGet () {
-      // for testing local storage
-      // TODO: move to store?
-      let logs = localStorage.getItem('logs')
-      return JSON.parse(logs)
-    }
+    // logsGet () {
+    //   // for testing local storage
+    //   // TODO: move to store?
+    //   let logs = localStorage.getItem('logs')
+    //   return JSON.parse(logs)
+    // }
   },
   created () {
     this.$store.dispatch('initializeLogs')

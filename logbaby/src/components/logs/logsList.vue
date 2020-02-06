@@ -47,8 +47,9 @@
       </div>
     </q-card-section>-->
     <q-card-section class="q-pt-none">
+      <p v-if="!logsDisplayed">No Logs. ADD LOG MESSAGE...</p>
       <q-table
-        clearable
+        v-else
         flat
         virtual-scroll
         hide-bottom
@@ -56,13 +57,19 @@
         stack-labels
         :data="logsDisplayed"
         :columns="columns"
-        :rows-per-page-options="[0]"
         row-key="id"
         :pagination.sync="pagination"
+        no-data-label="No Logs found. Add One!"
         table-style="max-height: 70vh"
         ref="logTable"
         class="logsTable"
       >
+        <template v-slot:no-data="{ icon, message }">
+          <div class="full-width row flex-center text-accent q-gutter-sm">
+            <span>{{message}}</span>
+            <q-icon size="2em" name="filter mdi-plus" />
+          </div>
+        </template>
         <template v-slot:body="props">
           <q-tr
             :props="props"

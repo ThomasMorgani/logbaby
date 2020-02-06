@@ -100,6 +100,7 @@
 <script>
 import { mapState } from 'vuex'
 import { date } from 'quasar'
+import modules from '../../modules.js'
 import categoryList from 'components/main/modalSelectorTiles'
 import menuListAvatar from 'components/main/menuListAvatar'
 const { formatDate } = date
@@ -126,8 +127,12 @@ export default {
       logCategories: state => state.mainStore.logCategories
     }),
     datesValid () {
-      let start = new Date(this.startDate)
+      let start = new Date(modules.qDateToTimestamp(this.startDate))
       let end = new Date(this.endDate)
+      console.log(this.startDate)
+      console.log(start)
+      console.log(this.endDate)
+      console.log(end)
       return start <= end
     },
     logData () {
