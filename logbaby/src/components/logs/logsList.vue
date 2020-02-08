@@ -73,17 +73,21 @@
         <template v-slot:body="props">
           <q-tr
             :props="props"
-            :class="`bg-${categoriesById[props.row.category].color}`"
+            :class="`bg-${categoriesById[props.row.category].color} ${selected && selected.id === props.row.id ? 'selectedRow' : ''}`"
             @click="rowClick(props.row)"
           >
             <q-td
               key="category"
               :props="props"
               class="text-h5 text-bold"
-            >{{categoriesById[props.row.category].text}}</q-td>
-            <q-td key="startDate" :props="props">{{dateFormat(props.row.startDate)}}</q-td>
-            <q-td key="endDate" :props="props">{{dateFormat(props.row.endDate)}}</q-td>
-            <q-td key="edit" :props="props">
+              :style="selected && selected.id === props.row.id ? selectedRowStyle : ''"
+            >
+            <!-- <q-icon name="mdi-chevron-right" left size="sm" color="secondary" v-if="selected && selected.id === props.row.id"/> -->
+            {{categoriesById[props.row.category].text}}
+            </q-td>
+            <q-td key="startDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.startDate)}}</q-td>
+            <q-td key="endDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.endDate)}}</q-td>
+            <q-td key="edit" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">
               <q-icon size="md" name="mdi-playlist-edit" />
             </q-td>
           </q-tr>
@@ -95,9 +99,9 @@
 
 <script>
 import { mapState } from 'vuex'
-
-import { date } from 'quasar'
-const { isValid, formatDate } = date
+import modules from '../../modules.js'
+import { colors } from 'quasar'
+const { getBrand } = colors
 export default {
   name: 'logsList',
   data: () => ({
@@ -106,13 +110,13 @@ export default {
       rowsPerPage: 0,
       sortBy: 'startDate',
       descending: true
-    },
-    selected: []
+    }
   }),
   computed: {
     ...mapState({
       categories: state => state.mainStore.logCategories,
-      logs: state => state.mainStore.logs
+      logs: state => state.mainStore.logs,
+      selected: state => state.mainStore.logSelected
     }),
     categoriesById () {
       let categories = {}
@@ -159,6 +163,14 @@ export default {
     },
     logsDisplayed () {
       return this.logs
+    },
+    selectedRowStyle () {
+      return {
+        'border-top-width': '8px',
+        'border-bottom-width': '8px',
+        'border-color': getBrand('accent'),
+        'border-style': 'solid'
+      }
     }
   },
   methods: {
@@ -173,21 +185,7 @@ export default {
       }
     },
     dateFormat (date) {
-      if (isValid(date)) {
-        const now = new Date()
-        const currentYear = now.getFullYear()
-        let formatNow = formatDate(now, 'YYYY-MM-DD')
-        // console.log(date)
-        if (date.substring(0, 10) === formatNow.substring(0, 10)) {
-          return `Today${date.substring(10, 19)}`
-        } else if (Number(date.substring(8, 10)) === Number(formatNow.substring(8, 10) - 1)) {
-          return `Yesterday${date.substring(10, 20)}`
-        } else if (currentYear === Number(formatNow.substring(0, 4))) {
-          return date.substring(5, 20)
-        } else {
-          return date
-        }
-      }
+      return modules.dateFormatDisplayed(date)
     },
     rowClick (row) {
       console.log(row)

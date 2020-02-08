@@ -45,7 +45,7 @@
         <template v-slot:prepend>
           <q-icon name="fas fa-calendar" size="xs" color="primary" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="endDate" mask="YYYY-MM-DD HH:mm" />
+              <q-date v-model="endDate" mask="YYYY-MM-DD HH:mm A" />
             </q-popup-proxy>
           </q-icon>
         </template>

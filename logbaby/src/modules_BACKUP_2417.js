@@ -1,6 +1,10 @@
 import { date } from 'quasar'
+<<<<<<< HEAD
 const { buildDate, formatDate } = date
 
+=======
+const { isValid, formatDate, getDateDiff } = date
+>>>>>>> 832610cea88aabc058eec237bfe9eb1dd7579f4d
 export default {
   logsGet: function () {
     return JSON.parse(localStorage.getItem('logs'))
@@ -8,13 +12,14 @@ export default {
   logsSet: function (logs) {
     localStorage.setItem('logs', JSON.stringify(logs))
   },
+<<<<<<< HEAD
   qDateToTimestamp (qDate) {
     // Takes front end formatted date and returns YYYY-MM-DD HH:mm:ss
     console.log(qDate)
     let a = buildDate(qDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
     console.log(a)
     return formatDate(qDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
-  },
+=======
   dateFormatDisplayed: function (date) {
     if (!isValid(date)) {
       console.log('ERR: invalid date passed')
@@ -65,5 +70,6 @@ export default {
       console.log(lastCharacter)
       return lastCharacter === ', ' ? lengthStr.substring(0, lengthStr.length - 2) : length
     }
+>>>>>>> 832610cea88aabc058eec237bfe9eb1dd7579f4d
   }
 }
