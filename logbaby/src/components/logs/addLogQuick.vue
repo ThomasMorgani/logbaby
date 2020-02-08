@@ -1,10 +1,11 @@
 <template>
-  <q-card class="addLogCard q-px-md q-py-lg row">
+  <q-card class="addLogCard q-px-md q-py-lg row justify-center">
     <!-- <q-card-section class="q-mb-lg q-pa-sm text-h5 text-white bg-primary col-12">QUICK LOG</q-card-section> -->
     <menuListAvatar
       :items="logCategories"
       :selectedItem="selectedCategory"
       @selected="selectedCategorySet"
+
       class="col-12"
     ></menuListAvatar>
     <div class="col-6 column">
@@ -18,15 +19,23 @@
       >
         <template v-slot:prepend>
           <q-icon name="fas fa-calendar" size="xs" color="primary" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm" @input="setEndDate" />
+            <q-popup-proxy transition-show="scale" transition-hide="scale" v-model="modalStartDate">
+              <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm A" @input="setEndDate" >
+                <template v-slot:default>
+                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                </template>
+              </q-date>
             </q-popup-proxy>
           </q-icon>
         </template>
         <template v-slot:append>
           <q-icon name="fas fa-clock" size="xs" color="primary" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="startDate" mask="YYYY-MM-DD hh:mm A" @input="setEndDate" />
+              <q-time v-model="startDate" mask="YYYY-MM-DD hh:mm A" @input="setEndDate" >
+                <template v-slot:default>
+                  <q-btn flat  color="primary" class="float-right" v-close-popup>OK</q-btn>
+                </template>
+              </q-time>
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -45,7 +54,11 @@
         <template v-slot:prepend>
           <q-icon name="fas fa-calendar" size="xs" color="primary" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="endDate" mask="YYYY-MM-DD HH:mm A" />
+              <q-date v-model="endDate" mask="YYYY-MM-DD HH:mm A" >
+                <template v-slot:default>
+                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                </template>
+              </q-date>
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -53,7 +66,11 @@
         <template v-slot:append>
           <q-icon name="fas fa-clock" size="xs" color="primary" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="endDate" mask="YYYY-MM-DD hh:mm A" />
+              <q-time v-model="endDate" mask="YYYY-MM-DD hh:mm A" >
+                <template v-slot:default>
+                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                </template>
+              </q-time>
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -67,13 +84,14 @@
         class="self-start q-mt-none q-pl-md"
       />
     </div>
-    <div class="col-12">
+    <div class="col-8 align-center">
       <q-btn
-        color="primary"
-        rounded
+        :color="saveDisabled ? 'grey' : 'primary'"
+        flat
         :disabled="saveDisabled"
         :loading="saveLoading"
         icon="mdi-plus-circle-outline"
+        size="md"
         label="ADD QUICK"
         @click="submitLog"
         class="text-bold full-width q-mt-lg"
@@ -100,7 +118,7 @@
 <script>
 import { mapState } from 'vuex'
 import { date } from 'quasar'
-import modules from '../../modules.js'
+// import modules from '../../modules.js'
 import categoryList from 'components/main/modalSelectorTiles'
 import menuListAvatar from 'components/main/menuListAvatar'
 const { formatDate } = date
@@ -112,6 +130,10 @@ export default {
   data: () => ({
     endDate: null,
     modalCategories: false,
+    modalStartTime: false,
+    modalEndDate: false,
+    modalEndTime: false,
+    modalStartDate: false,
     saveLoading: false,
     selectedCategory: null,
     selectedCategoryDefault: {
@@ -127,8 +149,11 @@ export default {
       logCategories: state => state.mainStore.logCategories
     }),
     datesValid () {
-      let start = new Date(modules.qDateToTimestamp(this.startDate))
+      // console.log(this.startDate)
+      // console.log(modules.qDateToTimestamp(this.startDate))
+      // let start = new Date(modules.qDateToTimestamp(this.startDate))
       let end = new Date(this.endDate)
+      let start = new Date(this.startDate)
       console.log(this.startDate)
       console.log(start)
       console.log(this.endDate)

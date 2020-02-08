@@ -3,6 +3,7 @@
     <q-card-section>
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
         <menuListAvatar
+        :key="logSelected.id"
           :items="logCategories"
           :selectedItem="selectedCategory || selectedCategoryDefault"
           @selected="selectedCategory = $event"
@@ -12,8 +13,9 @@
         <q-input v-model="units" label="Units" />
         <q-input v-model="note" label="Note" />
         <div class="row justify-between no-wrap q-mt-xl">
-          <q-btn label="Delete" type="submit" color="red" icon="mdi-trash-can" />
+          <q-btn flat label="Delete" type="submit" color="red" icon="mdi-trash-can" />
           <q-btn
+            flat
             label="Save"
             type="submit"
             color="primary"
@@ -81,6 +83,9 @@ export default {
     onReset () {
       if (this.logSelected) {
         console.log('set to original log values: ', this.logSelected)
+        this.selectedCategory = this.logCategories.find(el => el.id === this.logSelected.category)
+        this.startDate = this.logSelected.startDate
+        this.endDate = this.logSelected.endDate
       } else {
         let timeStamp = Date.now()
         this.selectedCategory = this.selectedCategoryDefault
@@ -106,7 +111,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.onReset()
   }
 }

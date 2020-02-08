@@ -88,7 +88,7 @@
             <q-td key="startDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.startDate)}}</q-td>
             <q-td key="endDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.endDate)}}</q-td>
             <q-td key="edit" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">
-              <q-icon size="md" name="mdi-playlist-edit" />
+              <q-icon size="xs" name="mdi-playlist-edit" />
             </q-td>
           </q-tr>
         </template>

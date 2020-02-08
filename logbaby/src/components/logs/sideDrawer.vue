@@ -40,8 +40,8 @@
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
       <template v-if="activeTab === 'add'">
-        <q-card class="q-pa-md">
-          <q-btn color="primary" rounded size="lg" class="full-width text-bold">
+        <q-card class="q-pa-md row justify-center">
+          <q-btn color="primary"  flat size="lg" class="text-bold col-9">
             <div class="row items-center no-wrap">
               <q-icon left name="mdi-playlist-plus" />
               <div class="text-center">ADD NEW</div>
@@ -49,8 +49,8 @@
           </q-btn>
         </q-card>
         <addLogQuick class="q-mt-md"></addLogQuick>
-        <q-card class="q-pa-md q-mt-md">
-          <q-btn disabled color="primary" rounded size="md" class="full-width text-bold">
+        <q-card class="q-pa-md q-mt-md row justify-center">
+          <q-btn disabled color="primary" rounded size="md" class=" col-8 text-bold">
             <div class="row items-center no-wrap">
               <q-icon left name="mdi-clock-outline" />
               <div class="text-center">ADD RECENT</div>
@@ -62,7 +62,7 @@
         <logDetails></logDetails>
       </template>
       <template v-if="activeTab === 'edit'">
-        <logEdit></logEdit>
+        <logEdit :key="'le' + activeTab"></logEdit>
       </template>
     </div>
   </q-drawer>

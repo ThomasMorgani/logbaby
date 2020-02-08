@@ -1,5 +1,5 @@
 import { date } from 'quasar'
-const { buildDate, formatDate } = date
+const { buildDate, formatDate, getDateDiff, isValid } = date
 
 export default {
   logsGet: function () {
