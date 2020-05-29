@@ -2,10 +2,11 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
+        <q-avatar>
+          <img src="~/assets/baby.png" />
+        </q-avatar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="~/assets/undraw_baby.svg" />
-          </q-avatar>LOGBABY
+          LOGBABY
         </q-toolbar-title>
 
         <q-btn dense flat round icon="fas fa-bars" @click="drawer = !drawer" />
@@ -35,7 +36,7 @@ export default {
   components: {
     sideDrawer
   },
-  data () {
+  data() {
     return {
       drawer: false
     }

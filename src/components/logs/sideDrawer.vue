@@ -14,7 +14,7 @@
           <div class="column items-center">
             <q-btn
               v-for="icon in tabItems"
-              :key="'nav'+icon.name"
+              :key="'nav' + icon.name"
               :icon="icon.icon"
               :color="icon.color"
               flat
@@ -29,19 +29,29 @@
     <q-tabs v-model="activeTab" dense align="justify" :breakpoint="0">
       <q-tab
         v-for="tab in tabItems"
-        :key="'tab'+tab.name"
+        :key="'tab' + tab.name"
         :name="tab.name"
         :icon="tab.icon"
         :class="`bg-white text-${tab.color}`"
       />
     </q-tabs>
-    <div class="q-mini-drawer-hide absolute" style="top: 25px; right: -17px; z-index: 4;">
-      <q-btn dense round unelevated color="accent" icon="mdi-chevron-left" @click="isMini = true" />
+    <div
+      class="q-mini-drawer-hide absolute"
+      style="top: 25px; right: -17px; z-index: 4;"
+    >
+      <q-btn
+        dense
+        round
+        unelevated
+        color="accent"
+        icon="mdi-chevron-left"
+        @click="isMini = true"
+      />
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
       <template v-if="activeTab === 'add'">
         <q-card class="q-pa-md row justify-center">
-          <q-btn color="primary"  flat size="lg" class="text-bold col-9">
+          <q-btn color="primary" flat size="lg" class="text-bold col-9">
             <div class="row items-center no-wrap">
               <q-icon left name="mdi-playlist-plus" />
               <div class="text-center">ADD NEW</div>
@@ -50,7 +60,13 @@
         </q-card>
         <addLogQuick class="q-mt-md"></addLogQuick>
         <q-card class="q-pa-md q-mt-md row justify-center">
-          <q-btn disabled color="primary" rounded size="md" class=" col-8 text-bold">
+          <q-btn
+            disabled
+            color="primary"
+            rounded
+            size="md"
+            class=" col-8 text-bold"
+          >
             <div class="row items-center no-wrap">
               <q-icon left name="mdi-clock-outline" />
               <div class="text-center">ADD RECENT</div>
@@ -112,11 +128,12 @@ export default {
     ]
   }),
   computed: {
-    width () {
+    width() {
+      console.log(this.$q.screen.name)
       const sizes = {
         xs: 250, // adjust layout, tabs above logs
         sm: 250, // adjust layout, tabs above logs
-        md: 300,
+        md: 450,
         lg: 500,
         xl: 600
       }
@@ -124,7 +141,7 @@ export default {
     }
   },
   methods: {
-    drawerClick (e) {
+    drawerClick(e) {
       console.log(e)
       if (e) {
         this.activeTab = e
@@ -137,5 +154,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

@@ -38,7 +38,8 @@ export const mainStore = {
     ],
     logSelected: null,
     logs: [],
-    theme: { // Defaults, api will overwrite
+    theme: {
+      // Defaults, api will overwrite
       primary: '#027BE3',
       secondary: '#fff',
       accent: '#9C27B0',
@@ -51,30 +52,31 @@ export const mainStore = {
   },
   getters: {},
   mutations: {
-    pushStateItem (state, data) {
+    pushStateItem(state, data) {
       state[data.key].push(data.value)
     },
-    setStateItem (state, data) {
+    setStateItem(state, data) {
       state[data.key] = data.value
     }
   },
   actions: {
-    initializeLogs ({ commit }) {
+    initializeLogs({ commit }) {
       const logs = modules.logsGet()
-      commit('setStateItem', { key: 'logs', value: logs })
+      commit('setStateItem', { key: 'logs', value: logs || [] })
     },
-    logAdd ({ commit, state }, log) {
-      return new Promise((resolve, reject) => {
-        let id = state.logs.length > 0 ? state.logs[state.logs.length - 1].id + 1 : 1
+    logAdd({ commit, state }, log) {
+      return new Promise(resolve => {
+        let id =
+          state.logs.length > 0 ? state.logs[state.logs.length - 1].id + 1 : 1
         commit('pushStateItem', { key: 'logs', value: { ...log, id: id } })
         modules.logsSet(state.logs)
         resolve()
       })
     },
-    logSelect ({ commit }, data) {
+    logSelect({ commit }, data) {
       commit('setStateItem', { key: 'logSelected', value: data })
     },
-    themeSet ({ commit, state }) {
+    themeSet({ state }) {
       Object.keys(state.theme).forEach(color => {
         colors.setBrand(color, state.theme[color])
       })

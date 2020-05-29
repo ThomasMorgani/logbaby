@@ -5,7 +5,6 @@
       :items="logCategories"
       :selectedItem="selectedCategory"
       @selected="selectedCategorySet"
-
       class="col-12"
     ></menuListAvatar>
     <div class="col-6 column">
@@ -18,22 +17,53 @@
         dense
       >
         <template v-slot:prepend>
-          <q-icon name="fas fa-calendar" size="xs" color="primary" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale" v-model="modalStartDate">
-              <q-date v-model="startDate" mask="YYYY-MM-DD HH:mm A" @input="setEndDate" >
+          <q-icon
+            name="fas fa-calendar"
+            size="xs"
+            color="primary"
+            class="cursor-pointer"
+          >
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+              v-model="modalStartDate"
+            >
+              <q-date
+                v-model="startDate"
+                mask="MM-DD-YYYY hh:mm A"
+                @input="setEndDate"
+              >
                 <template v-slot:default>
-                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                  <q-btn
+                    flat
+                    small
+                    color="primary"
+                    class="float-right"
+                    v-close-popup
+                    >OK</q-btn
+                  >
                 </template>
               </q-date>
             </q-popup-proxy>
           </q-icon>
         </template>
         <template v-slot:append>
-          <q-icon name="fas fa-clock" size="xs" color="primary" class="cursor-pointer">
+          <q-icon
+            name="fas fa-clock"
+            size="xs"
+            color="primary"
+            class="cursor-pointer"
+          >
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="startDate" mask="YYYY-MM-DD hh:mm A" @input="setEndDate" >
+              <q-time
+                v-model="startDate"
+                mask="MM-DD-YYYY hh:mm A"
+                @input="setEndDate"
+              >
                 <template v-slot:default>
-                  <q-btn flat  color="primary" class="float-right" v-close-popup>OK</q-btn>
+                  <q-btn flat color="primary" class="float-right" v-close-popup
+                    >OK</q-btn
+                  >
                 </template>
               </q-time>
             </q-popup-proxy>
@@ -50,13 +80,31 @@
       />
     </div>
     <div class="col-6 column align-between">
-      <q-input v-model="endDate" color="primary" label="End" class="q-pl-md" dense>
+      <q-input
+        v-model="endDate"
+        color="primary"
+        label="End"
+        class="q-pl-md"
+        dense
+      >
         <template v-slot:prepend>
-          <q-icon name="fas fa-calendar" size="xs" color="primary" class="cursor-pointer">
+          <q-icon
+            name="fas fa-calendar"
+            size="xs"
+            color="primary"
+            class="cursor-pointer"
+          >
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="endDate" mask="YYYY-MM-DD HH:mm A" >
+              <q-date v-model="endDate" mask="MM-DD-YYYY hh:mm A">
                 <template v-slot:default>
-                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                  <q-btn
+                    flat
+                    small
+                    color="primary"
+                    class="float-right"
+                    v-close-popup
+                    >OK</q-btn
+                  >
                 </template>
               </q-date>
             </q-popup-proxy>
@@ -64,11 +112,23 @@
         </template>
 
         <template v-slot:append>
-          <q-icon name="fas fa-clock" size="xs" color="primary" class="cursor-pointer">
+          <q-icon
+            name="fas fa-clock"
+            size="xs"
+            color="primary"
+            class="cursor-pointer"
+          >
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="endDate" mask="YYYY-MM-DD hh:mm A" >
+              <q-time v-model="endDate" mask="MM-DD-YYYY hh:mm A">
                 <template v-slot:default>
-                  <q-btn flat small color="primary" class="float-right" v-close-popup>OK</q-btn>
+                  <q-btn
+                    flat
+                    small
+                    color="primary"
+                    class="float-right"
+                    v-close-popup
+                    >OK</q-btn
+                  >
                 </template>
               </q-time>
             </q-popup-proxy>
@@ -81,7 +141,7 @@
         color="primary"
         label="SET TO NOW"
         @click="setNow('endDate')"
-        class="self-start q-mt-none q-pl-md"
+        class="self-start q-mt-none q-ml-md"
       />
     </div>
     <div class="col-8 align-center">
@@ -106,7 +166,8 @@
         :offset="[-15, -15]"
         v-if="saveDisabled"
         content-class="bg-accent"
-      >{{saveDisabled}}</q-tooltip>
+        >{{ saveDisabled }}</q-tooltip
+      >
     </div>
 
     <q-dialog v-model="modalCategories" class="dialogCategories">
@@ -148,26 +209,25 @@ export default {
     ...mapState({
       logCategories: state => state.mainStore.logCategories
     }),
-    datesValid () {
-      // console.log(this.startDate)
+    datesValid() {
       // console.log(modules.qDateToTimestamp(this.startDate))
       // let start = new Date(modules.qDateToTimestamp(this.startDate))
-      let end = new Date(this.endDate)
-      let start = new Date(this.startDate)
+      const end = date.extractDate(this.endDate, 'MM-DD-YYYY hh:mm A')
+      const start = date.extractDate(this.startDate, 'MM-DD-YYYY hh:mm A')
       console.log(this.startDate)
       console.log(start)
       console.log(this.endDate)
       console.log(end)
       return start <= end
     },
-    logData () {
+    logData() {
       return {
         category: this.selectedCategory.id || null,
         startDate: this.startDate || null,
         endDate: this.endDate || null
       }
     },
-    saveDisabled () {
+    saveDisabled() {
       if (this.selectedCategory.id === 1999) {
         return 'Select A category'
       }
@@ -178,43 +238,46 @@ export default {
     }
   },
   methods: {
-    selectCategory () {
+    selectCategory() {
       this.modalCategories = true
     },
-    selectedCategorySet (item) {
+    selectedCategorySet(item) {
       this.selectedCategory = item
     },
-    setEndDate () {
+    setEndDate() {
       if (!this.endDate) {
         this.endDate = this.startDate
       }
     },
-    setNow (target) {
+    setNow(target) {
       if (this[target]) {
         let timeStamp = Date.now()
-        this[target] = formatDate(timeStamp, 'YYYY-MM-DD hh:mm A')
+        this[target] = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
       }
     },
-    submitLog () {
+    submitLog() {
       console.log('submit log')
       this.saveLoading = true
       // TODO: set up api, move to store, promise
       setTimeout(() => {
-        this.$store.dispatch('logAdd', this.logData).then(() => {
-          this.saveLoading = false
-          // this.reset()
-          this.selectedCategory = this.selectedCategoryDefault
-        }).catch(err => console.log(err))
+        this.$store
+          .dispatch('logAdd', this.logData)
+          .then(() => {
+            this.saveLoading = false
+            // this.reset()
+            this.selectedCategory = this.selectedCategoryDefault
+          })
+          .catch(err => console.log(err))
       }, 1500)
     },
-    reset () {
+    reset() {
       let timeStamp = Date.now()
       this.selectedCategory = this.selectedCategoryDefault
-      this.startDate = formatDate(timeStamp, 'YYYY-MM-DD hh:mm A')
-      this.endDate = formatDate(timeStamp, 'YYYY-MM-DD hh:mm A')
+      this.startDate = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
+      this.endDate = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
     }
   },
-  created () {
+  created() {
     this.reset()
   }
 }
