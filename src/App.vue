@@ -7,8 +7,9 @@
 <script>
 export default {
   name: 'LogBaby',
-  created () {
+  created() {
     this.$store.dispatch('themeSet')
   }
 }
 </script>
+<style></style>

@@ -4,6 +4,7 @@ import { colors } from 'quasar'
 export const mainStore = {
   namespaced: false,
   state: {
+    darkMode: false,
     logCategories: [
       {
         icon: 'mdi-sleep',
@@ -77,9 +78,17 @@ export const mainStore = {
       commit('setStateItem', { key: 'logSelected', value: data })
     },
     themeSet({ state }) {
+      console.log(colors)
       Object.keys(state.theme).forEach(color => {
         colors.setBrand(color, state.theme[color])
       })
+    },
+    toggleStateItem({ state, commit }, item) {
+      console.log(item)
+      console.log(state[item])
+      console.log(!state[item])
+      commit('setStateItem', { key: item, value: !state[item] })
+      console.log(state[item])
     }
   }
 }

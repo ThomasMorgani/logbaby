@@ -66,28 +66,54 @@
       >
         <template v-slot:no-data="{ icon, message }">
           <div class="full-width row flex-center text-accent q-gutter-sm">
-            <span>{{message}}</span>
+            <span>{{ message }}</span>
             <q-icon size="2em" name="filter mdi-plus" />
           </div>
         </template>
         <template v-slot:body="props">
           <q-tr
             :props="props"
-            :class="`bg-${categoriesById[props.row.category].color} ${selected && selected.id === props.row.id ? 'selectedRow' : ''}`"
+            :class="
+              `bg-${categoriesById[props.row.category].color} ${
+                selected && selected.id === props.row.id ? 'selectedRow' : ''
+              }`
+            "
             @click="rowClick(props.row)"
           >
             <q-td
               key="category"
               :props="props"
               class="text-h5 text-bold"
-              :style="selected && selected.id === props.row.id ? selectedRowStyle : ''"
+              :style="
+                selected && selected.id === props.row.id ? selectedRowStyle : ''
+              "
             >
-            <!-- <q-icon name="mdi-chevron-right" left size="sm" color="secondary" v-if="selected && selected.id === props.row.id"/> -->
-            {{categoriesById[props.row.category].text}}
+              <!-- <q-icon name="mdi-chevron-right" left size="sm" color="secondary" v-if="selected && selected.id === props.row.id"/> -->
+              {{ categoriesById[props.row.category].text }}
             </q-td>
-            <q-td key="startDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.startDate)}}</q-td>
-            <q-td key="endDate" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">{{dateFormat(props.row.endDate)}}</q-td>
-            <q-td key="edit" :props="props" :style="selected && selected.id === props.row.id ? selectedRowStyle : ''">
+            <q-td
+              key="startDate"
+              :props="props"
+              :style="
+                selected && selected.id === props.row.id ? selectedRowStyle : ''
+              "
+              >{{ dateFormat(props.row.startDate) }}</q-td
+            >
+            <q-td
+              key="endDate"
+              :props="props"
+              :style="
+                selected && selected.id === props.row.id ? selectedRowStyle : ''
+              "
+              >{{ dateFormat(props.row.endDate) }}</q-td
+            >
+            <q-td
+              key="edit"
+              :props="props"
+              :style="
+                selected && selected.id === props.row.id ? selectedRowStyle : ''
+              "
+            >
               <q-icon size="xs" name="mdi-playlist-edit" />
             </q-td>
           </q-tr>
@@ -118,12 +144,14 @@ export default {
       logs: state => state.mainStore.logs,
       selected: state => state.mainStore.logSelected
     }),
-    categoriesById () {
+    categoriesById() {
       let categories = {}
-      this.categories.forEach(cat => { categories[cat.id] = cat })
+      this.categories.forEach(cat => {
+        categories[cat.id] = cat
+      })
       return categories
     },
-    columns () {
+    columns() {
       return [
         {
           name: 'category',
@@ -161,10 +189,10 @@ export default {
         }
       ]
     },
-    logsDisplayed () {
+    logsDisplayed() {
       return this.logs
     },
-    selectedRowStyle () {
+    selectedRowStyle() {
       return {
         'border-top-width': '8px',
         'border-bottom-width': '8px',
@@ -174,31 +202,34 @@ export default {
     }
   },
   methods: {
-    test (e) {
+    test(e) {
       console.log(e)
       console.log(this.filterCategories.findIndex(el => el.id === e))
       console.log(this.filterCategories)
       if (this.filterCategories.length - 1 < 1) {
         this.filterCategories = null
       } else {
-        this.$delete(this.filterCategories, this.filterCategories.findIndex(el => el.id === e))
+        this.$delete(
+          this.filterCategories,
+          this.filterCategories.findIndex(el => el.id === e)
+        )
       }
     },
-    dateFormat (date) {
+    dateFormat(date) {
       return modules.dateFormatDisplayed(date)
     },
-    rowClick (row) {
+    rowClick(row) {
       console.log(row)
       this.$store.dispatch('logSelect', row)
     }
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
       console.log(this.$refs)
     }, 2000)
   },
   watch: {
-    logs () {
+    logs() {
       // console.log(this.$refs.logTable)
       this.$refs.logTable.$refs.virtScroll.scrollTo(0)
     }
@@ -215,7 +246,9 @@ export default {
   height: 60vh;
 } */
 </style>
-<style lang="sass">
+<style lang="sass" scoped>
+.q-dark
+
 .logsTable
   /* max height is important */
   .q-table__middle
