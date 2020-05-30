@@ -39,6 +39,7 @@ export default {
         this.$store.dispatch('toggleStateItem', 'darkMode')
         console.log(this.$q)
         this.$q.dark.set(this.darkMode)
+        localStorage.setItem('darkMode', this.darkMode)
       }
     }
   }

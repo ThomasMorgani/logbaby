@@ -46,7 +46,7 @@
         <q-btn flat round color="disabled" icon="mdi-playlist-edit"></q-btn>
       </div>
     </q-card-section>-->
-    <q-card-section class="q-pt-none">
+    <q-card-section class="">
       <p v-if="!logsDisplayed">No Logs. ADD LOG MESSAGE...</p>
       <q-table
         v-else

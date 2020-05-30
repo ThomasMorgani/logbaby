@@ -77,18 +77,21 @@ export const mainStore = {
     logSelect({ commit }, data) {
       commit('setStateItem', { key: 'logSelected', value: data })
     },
-    themeSet({ state }) {
-      console.log(colors)
-      Object.keys(state.theme).forEach(color => {
-        colors.setBrand(color, state.theme[color])
+    themeSet({ commit, state }) {
+      return new Promise(resolve => {
+        const darkMode = localStorage.getItem('darkMode') || false
+        commit('setStateItem', { key: 'darkMode', value: JSON.parse(darkMode) })
+        console.log(darkMode)
+        console.log(state.darkMode)
+        Object.keys(state.theme).forEach(color => {
+          colors.setBrand(color, state.theme[color])
+        })
+        resolve('hi')
       })
     },
     toggleStateItem({ state, commit }, item) {
-      console.log(item)
-      console.log(state[item])
       console.log(!state[item])
       commit('setStateItem', { key: item, value: !state[item] })
-      console.log(state[item])
     }
   }
 }

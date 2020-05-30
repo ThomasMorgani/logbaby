@@ -8,8 +8,14 @@
 export default {
   name: 'LogBaby',
   created() {
-    this.$store.dispatch('themeSet')
+    this.$store.dispatch('themeSet').then(() => {
+      this.$q.dark.set(this.$store.state.mainStore.darkMode)
+    })
   }
 }
 </script>
-<style></style>
+<style>
+.q-card--dark {
+  background: #242423;
+}
+</style>

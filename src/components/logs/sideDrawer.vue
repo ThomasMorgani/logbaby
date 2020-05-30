@@ -5,8 +5,7 @@
     :mini="!isActive || isMini"
     :width="width"
     :breakpoint="500"
-    bordered
-    content-class="bg-grey-3"
+    elevated=""
   >
     <template v-slot:mini>
       <q-scroll-area class="fit mini-slot cursor-pointer">
@@ -26,13 +25,13 @@
         </div>
       </q-scroll-area>
     </template>
-    <q-tabs v-model="activeTab" dense align="justify" :breakpoint="0">
+    <q-tabs v-model="activeTab" align="justify" :breakpoint="0">
       <q-tab
         v-for="tab in tabItems"
         :key="'tab' + tab.name"
         :name="tab.name"
         :icon="tab.icon"
-        :class="`bg-white text-${tab.color}`"
+        :class="` text-${tab.color}`"
       />
     </q-tabs>
     <div
@@ -128,6 +127,9 @@ export default {
     ]
   }),
   computed: {
+    darkMode() {
+      return this.$store.state.mainStore.darkMode
+    },
     width() {
       console.log(this.$q.screen.name)
       const sizes = {
@@ -135,7 +137,7 @@ export default {
         sm: 250, // adjust layout, tabs above logs
         md: 450,
         lg: 500,
-        xl: 600
+        xl: 500
       }
       return sizes[this.$q.screen.name] || 400
     }

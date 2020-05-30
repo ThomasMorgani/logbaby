@@ -22,4 +22,7 @@ timers
 
 logs
   -fix scrolling to log on add (dont scroll to top, scroll to log)
-  -set style of selected log
+  -set style of selected log //done?
+
+add log quick 
+  -separate date & time for start and end inputs
