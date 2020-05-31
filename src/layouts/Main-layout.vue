@@ -14,8 +14,8 @@
 
       <q-tabs align="left" inline-label>
         <q-route-tab to="/" label="DASHBOARD" icon="fas fa-tachometer-alt" />
-        <q-route-tab to="/timer" label="TIMER" icon="fas fa-stopwatch" />
         <q-route-tab to="/logs" label="LOGS" icon="fas fa-clipboard-list" />
+        <q-route-tab to="/timer" label="TIMERS" icon="fas fa-stopwatch" />
         <q-route-tab to="/reports" label="REPORTS" icon="fas fa-chart-line" />
       </q-tabs>
     </q-header>

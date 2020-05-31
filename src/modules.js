@@ -2,20 +2,20 @@ import { date } from 'quasar'
 const { buildDate, formatDate, getDateDiff, isValid } = date
 
 export default {
-  logsGet: function () {
+  logsGet: function() {
     return JSON.parse(localStorage.getItem('logs'))
   },
-  logsSet: function (logs) {
+  logsSet: function(logs) {
     localStorage.setItem('logs', JSON.stringify(logs))
   },
-  qDateToTimestamp (qDate) {
+  qDateToTimestamp(qDate) {
     // Takes front end formatted date and returns YYYY-MM-DD HH:mm:ss
     console.log(qDate)
     let a = buildDate(qDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
     console.log(a)
     return formatDate(qDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
   },
-  dateFormatDisplayed: function (date) {
+  dateFormatDisplayed: function(date) {
     if (!isValid(date)) {
       console.log('ERR: invalid date passed')
       console.log('rcvd', date)
@@ -23,11 +23,15 @@ export default {
     } else {
       const now = new Date()
       const currentYear = now.getFullYear()
-      let formatNow = formatDate(now, 'YYYY-MM-DD')
+      date = formatDate(date, 'YYYY-MM-DD hh:mm A')
+      console.log('rcvd valid', date)
+      let formatNow = formatDate(now, 'YYYY-MM-DD hh:mm A')
       // console.log(date)
       if (date.substring(0, 10) === formatNow.substring(0, 10)) {
         return `Today${date.substring(10, 19)}`
-      } else if (Number(date.substring(8, 10)) === Number(formatNow.substring(8, 10) - 1)) {
+      } else if (
+        Number(date.substring(8, 10)) === Number(formatNow.substring(8, 10) - 1)
+      ) {
         return `Yesterday${date.substring(10, 20)}`
       } else if (currentYear === Number(formatNow.substring(0, 4))) {
         return date.substring(5, 20)
@@ -36,7 +40,7 @@ export default {
       }
     }
   },
-  dateDifferenceDisplayed: function (date1, date2) {
+  dateDifferenceDisplayed: function(date1, date2) {
     if (!isValid(date1) || !isValid(date2)) {
       console.log('ERR: invalid date passed')
       console.log('rcvd', date1, date2)
@@ -58,12 +62,14 @@ export default {
         console.log(lengthStr)
         if (measurement >= 1) {
           lengthStr = lengthStr + `${measurement} ${m.unit}, `
-          secondsLeft -= (measurement * m.operator)
+          secondsLeft -= measurement * m.operator
         }
       })
       let lastCharacter = lengthStr.substring(lengthStr.length - 2)
       console.log(lastCharacter)
-      return lastCharacter === ', ' ? lengthStr.substring(0, lengthStr.length - 2) : length
+      return lastCharacter === ', '
+        ? lengthStr.substring(0, lengthStr.length - 2)
+        : length
     }
   }
 }

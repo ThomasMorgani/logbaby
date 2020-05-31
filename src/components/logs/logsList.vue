@@ -126,7 +126,7 @@
 <script>
 import { mapState } from 'vuex'
 import modules from '../../modules.js'
-import { colors } from 'quasar'
+import { date, colors } from 'quasar'
 const { getBrand } = colors
 export default {
   name: 'logsList',
@@ -215,8 +215,14 @@ export default {
         )
       }
     },
-    dateFormat(date) {
-      return modules.dateFormatDisplayed(date)
+    dateFormat(logDate) {
+      // const dateObj = date.extractDate(logDate, 'MM-DD-YYYY hh:mm A') || null
+      // const dateObj = date.formatDate(
+      //   date.extractDate(logDate, 'MM-DD-YYYY hh:mm A'),
+      //   'YYYY-MM-DD hh:mm'
+      // )
+      const dateObj = date.extractDate(logDate, 'MM-DD-YYYY hh:mm A')
+      return modules.dateFormatDisplayed(dateObj)
     },
     rowClick(row) {
       console.log(row)

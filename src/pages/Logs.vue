@@ -28,18 +28,9 @@ export default {
     sideDrawer
   },
   data: () => ({
-
     logs: []
   }),
-  methods: {
-    // logsGet () {
-    //   // for testing local storage
-    //   // TODO: move to store?
-    //   let logs = localStorage.getItem('logs')
-    //   return JSON.parse(logs)
-    // }
-  },
-  created () {
+  created() {
     this.$store.dispatch('initializeLogs')
   }
 }

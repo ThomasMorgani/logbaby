@@ -48,81 +48,57 @@
       />
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
-      <template v-if="activeTab === 'add'">
+      <template v-if="activeTab === 'stopwatch'">
+        <stopwatch></stopwatch>
+      </template>
+      <template v-if="activeTab === 'timer'">
+        <timer></timer>
+      </template>
+      <template v-if="activeTab === 'alarm'">
         <q-card class="q-pa-md row justify-center">
           <q-btn color="primary" flat size="lg" class="text-bold col-9">
             <div class="row items-center no-wrap">
-              <q-icon left name="mdi-playlist-plus" />
+              <q-icon left name="mdi-alarm-plus" />
               <div class="text-center">ADD NEW</div>
             </div>
           </q-btn>
         </q-card>
-        <addLogQuick class="q-mt-md"></addLogQuick>
-        <q-card class="q-pa-md q-mt-md row justify-center">
-          <q-btn
-            disabled
-            color="primary"
-            rounded
-            size="md"
-            class=" col-8 text-bold"
-          >
-            <div class="row items-center no-wrap">
-              <q-icon left name="mdi-clock-outline" />
-              <div class="text-center">ADD RECENT</div>
-            </div>
-          </q-btn>
-        </q-card>
-      </template>
-      <template v-if="activeTab === 'info'">
-        <logDetails></logDetails>
-      </template>
-      <template v-if="activeTab === 'edit'">
-        <logEdit :key="'le' + activeTab"></logEdit>
       </template>
     </div>
   </q-drawer>
 </template>
 
 <script>
-import addLogQuick from 'components/logs/addLogQuick'
-import logDetails from 'components/logs/logDetails'
-import logEdit from 'components/logs/logEdit'
-
+import stopwatch from 'components/timers/stopwatch'
+import timer from 'components/timers/timer'
 export default {
   name: 'sideDrawerLogs',
   components: {
-    addLogQuick,
-    logDetails,
-    logEdit
+    stopwatch,
+    timer
   },
   data: () => ({
-    isActive: false,
-    isMini: true,
-    activeTab: null,
+    isActive: true,
+    isMini: false,
+    activeTab: 'stopwatch',
     tabItems: [
       {
         color: 'teal',
         component: 'addLogQuick',
-        icon: 'mdi-plus',
-        name: 'add'
+        icon: 'mdi-timer',
+        name: 'stopwatch'
       },
       {
         color: 'purple',
         component: 'addLogQuick',
-        icon: 'mdi-filter',
-        name: 'filter'
+        icon: 'mdi-timer-sand',
+        name: 'timer'
       },
       {
         color: 'orange',
         component: 'addLogQuick',
-        icon: 'mdi-information',
-        name: 'info'
-      },
-      {
-        color: 'blue',
-        component: 'addLogQuick',
-        icon: 'mdi-playlist-edit',
-        name: 'edit'
+        icon: 'mdi-alarm-multiple',
+        name: 'alarm'
       }
     ]
   }),

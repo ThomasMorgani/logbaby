@@ -214,10 +214,6 @@ export default {
       // let start = new Date(modules.qDateToTimestamp(this.startDate))
       const end = date.extractDate(this.endDate, 'MM-DD-YYYY hh:mm A')
       const start = date.extractDate(this.startDate, 'MM-DD-YYYY hh:mm A')
-      console.log(this.startDate)
-      console.log(start)
-      console.log(this.endDate)
-      console.log(end)
       return start <= end
     },
     logData() {
