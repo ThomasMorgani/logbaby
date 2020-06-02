@@ -20,6 +20,10 @@ import '@quasar/extras/roboto-font/roboto-font.css'
 
 
 
+import '@quasar/extras/animate/slideInLeft.css'
+
+import '@quasar/extras/animate/slideInRight.css'
+
 
 // We load Quasar stylesheet file
 import 'quasar/dist/quasar.sass'

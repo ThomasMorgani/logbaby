@@ -1,32 +1,23 @@
-
 const routes = [
   {
     path: '/',
     component: () => import('layouts/Main-layout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ]
+    children: [{ path: '', component: () => import('pages/Index.vue') }]
   },
   {
-    path: '/timer',
+    path: '/timers',
     component: () => import('layouts/Main-layout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Timer.vue') }
-    ]
+    children: [{ path: '', component: () => import('pages/Timers.vue') }]
   },
   {
     path: '/logs',
     component: () => import('layouts/Main-layout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Logs.vue') }
-    ]
+    children: [{ path: '', component: () => import('pages/Logs.vue') }]
   },
   {
     path: '/reports',
     component: () => import('layouts/Main-layout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Reports.vue') }
-    ]
+    children: [{ path: '', component: () => import('pages/Reports.vue') }]
   }
 ]
 

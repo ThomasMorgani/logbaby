@@ -8,7 +8,7 @@
         <q-btn
           flat
           round
-          size="sm"
+          size="xs"
           color="orange"
           :icon="`mdi-${alarm ? 'bell' : 'bell-off'}`"
           @click="alarmToggle"
@@ -32,7 +32,7 @@
         >
       </div>
       <div>
-        <q-btn flat round size="sm" color="teal" icon="mdi-content-save" />
+        <q-btn flat round size="xs" color="teal" icon="mdi-content-save" />
         <q-tooltip
           anchor="top middle"
           self="bottom middle"

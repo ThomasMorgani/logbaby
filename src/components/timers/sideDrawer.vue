@@ -25,12 +25,13 @@
         </div>
       </q-scroll-area>
     </template>
-    <q-tabs v-model="activeTab" align="justify" :breakpoint="0">
+    <q-tabs v-model="activeTab" align="justify" :breakpoint="0" inline-label>
       <q-tab
         v-for="tab in tabItems"
         :key="'tab' + tab.name"
         :name="tab.name"
         :icon="tab.icon"
+        :label="tab.name === activeTab ? tab.name : ''"
         :class="` text-${tab.color}`"
       />
     </q-tabs>
@@ -48,22 +49,28 @@
       />
     </div>
     <div class="q-row q-mx-sm align-center q-mt-md">
-      <template v-if="activeTab === 'stopwatch'">
-        <stopwatch></stopwatch>
-      </template>
-      <template v-if="activeTab === 'timer'">
-        <timer></timer>
-      </template>
-      <template v-if="activeTab === 'alarm'">
-        <q-card class="q-pa-md row justify-center">
-          <q-btn color="primary" flat size="lg" class="text-bold col-9">
-            <div class="row items-center no-wrap">
-              <q-icon left name="mdi-alarm-plus" />
-              <div class="text-center">ADD NEW</div>
-            </div>
-          </q-btn>
-        </q-card>
-      </template>
+      <!-- <h6 class="q-ma-none" :class="`text-${tabItems.color || 'primary'}`">
+        {{ this.activeTab.toUpperCase() }}
+      </h6> -->
+
+      <q-tab-panels v-model="activeTab" animated>
+        <q-tab-panel name="stopwatch">
+          <stopwatch :key="activeTab"></stopwatch>
+        </q-tab-panel>
+        <q-tab-panel name="timer">
+          <timer :key="activeTab"></timer>
+        </q-tab-panel>
+        <q-tab-panel name="alarm">
+          <q-card class="q-pa-md row justify-center">
+            <q-btn color="primary" flat size="lg" class="text-bold col-9">
+              <div class="row items-center no-wrap">
+                <q-icon left name="mdi-alarm-plus" />
+                <div class="text-center">ADD NEW</div>
+              </div>
+            </q-btn>
+          </q-card>
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </q-drawer>
 </template>
@@ -100,7 +107,9 @@ export default {
         icon: 'mdi-alarm-multiple',
         name: 'alarm'
       }
-    ]
+    ],
+    transEnter: '',
+    transLeave: ''
   }),
   computed: {
     darkMode() {

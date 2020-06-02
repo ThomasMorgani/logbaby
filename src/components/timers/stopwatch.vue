@@ -5,7 +5,7 @@
     </q-card-section>
     <q-card-section class="q-pa-md row justify-between items-end">
       <div>
-        <q-btn flat round size="sm" color="orange" icon="mdi-history" />
+        <q-btn flat round size="xs" color="orange" icon="mdi-history" />
         <q-tooltip
           anchor="top middle"
           self="bottom middle"
@@ -25,7 +25,7 @@
         >
       </div>
       <div>
-        <q-btn flat round size="sm" color="teal" icon="mdi-content-save" />
+        <q-btn flat round size="xs" color="teal" icon="mdi-content-save" />
         <q-tooltip
           anchor="top middle"
           self="bottom middle"
