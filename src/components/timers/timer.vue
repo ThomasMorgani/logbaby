@@ -28,7 +28,7 @@
           self="bottom middle"
           :offset="[-15, -15]"
           content-class="bg-accent"
-          >START TIMER</q-tooltip
+          >{{ pauseDisabled ? 'SET TIME' : 'START TIMER' }}</q-tooltip
         >
       </div>
       <div>
@@ -49,11 +49,27 @@
 export default {
   name: 'timer',
   data: () => ({
-    alarm: false
+    alarm: false,
+    time: {
+      dt: new Date(),
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0
+    }
   }),
   methods: {
     alarmToggle() {
       this.alarm = !this.alarm
+    }
+  },
+  computed: {
+    pauseDisabled() {
+      let isDisabled = false
+      Object.keys(this.time).forEach(i => {
+        if (i !== 'dt' && i !== 0) isDisabled = true
+      })
+      return isDisabled
     }
   }
 }

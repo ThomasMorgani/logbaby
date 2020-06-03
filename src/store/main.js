@@ -41,6 +41,7 @@ export const mainStore = {
     logs: [],
     theme: {
       // Defaults, api will overwrite
+      disabled: 'indigo-2',
       primary: '#027BE3',
       secondary: '#fff',
       accent: '#9C27B0',
