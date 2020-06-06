@@ -9,7 +9,7 @@
           flat
           round
           size="xs"
-          color="orange"
+          :color="alarm ? 'orange' : 'disabled'"
           :icon="`mdi-${alarm ? 'bell' : 'bell-off'}`"
           @click="alarmToggle"
         />
@@ -18,7 +18,7 @@
           self="bottom middle"
           :offset="[-15, -15]"
           content-class="bg-accent"
-          >PLAY ALARM</q-tooltip
+          >{{ `Alarm is ${alarm ? 'ON' : 'OFF'}` }}</q-tooltip
         >
       </div>
       <div>
@@ -56,7 +56,8 @@ export default {
       minutes: 0,
       seconds: 0,
       milliseconds: 0
-    }
+    },
+    firstStartDateTime: null
   }),
   methods: {
     alarmToggle() {

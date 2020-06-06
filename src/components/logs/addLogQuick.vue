@@ -188,6 +188,16 @@ export default {
     categoryList,
     menuListAvatar
   },
+  props: {
+    isMinimal: {
+      type: Boolean,
+      default: () => false
+    },
+    optionsIn: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data: () => ({
     endDate: null,
     modalCategories: false,
@@ -274,6 +284,14 @@ export default {
     }
   },
   created() {
+    // if (this.isMinimal) {
+
+    // }
+    if (this.optionsIn) {
+      Object.keys(this.optionsIn).forEach(opt =>
+        this[opt] !== undefined ? (this[opt] = this.optionsIn[opt]) : null
+      )
+    }
     this.reset()
   }
 }

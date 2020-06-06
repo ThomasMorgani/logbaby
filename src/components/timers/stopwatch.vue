@@ -30,7 +30,14 @@
         />
       </div>
       <div>
-        <q-btn flat round size="xs" color="teal" icon="mdi-content-save" />
+        <q-btn
+          flat
+          round
+          size="xs"
+          color="teal"
+          icon="mdi-content-save"
+          @click="saveLog"
+        />
         <q-tooltip
           anchor="top middle"
           self="bottom middle"
@@ -40,13 +47,22 @@
         >
       </div>
     </q-card-section>
+    <q-card-section v-if="addLogShow">
+      <addLog></addLog>
+    </q-card-section>
   </q-card>
 </template>
 
 <script>
+import addLog from 'components/logs/addLogQuick.vue'
 export default {
   name: 'stopwatch',
+  components: {
+    addLog
+  },
   data: () => ({
+    addLogShow: false,
+    firstStartDateTime: null,
     time: {
       startDateTime: null,
       pauseDateTime: null,
@@ -87,6 +103,10 @@ export default {
     },
     resetTime() {
       this.time = { ...this.baseTime }
+      this.firstStartDateTime = null
+    },
+    saveLog() {
+      this.addLogShow = !this.addLogShow
     },
     setTime() {
       const current = new Date().getTime()
@@ -110,6 +130,7 @@ export default {
     },
     startTime() {
       this.time.startDateTime = new Date()
+      if (!this.firstStartDateTime) this.firstStartDateTime = new Date()
       // if (!this.time.pauseDateTime) {
       //   this.time.startDateTime = new Date()
       // }
