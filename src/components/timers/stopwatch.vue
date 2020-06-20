@@ -10,7 +10,14 @@
     </q-card-section>
     <q-card-section class="q-pa-md row justify-between items-end">
       <div>
-        <q-btn flat round size="xs" color="orange" icon="mdi-history" />
+        <q-btn
+          flat
+          round
+          size="xs"
+          color="orange"
+          icon="mdi-history"
+          @click="resetTime"
+        />
         <q-tooltip
           anchor="top middle"
           self="bottom middle"
@@ -36,6 +43,7 @@
           size="xs"
           color="teal"
           icon="mdi-content-save"
+          :disabled="saveLogDisabled"
           @click="saveLog"
         />
         <q-tooltip
@@ -43,25 +51,18 @@
           self="bottom middle"
           :offset="[-15, -15]"
           content-class="bg-accent"
-          >SAVE LOG</q-tooltip
+          >{{ timer ? 'Pause timer to save' : 'Save to log' }}</q-tooltip
         >
       </div>
-    </q-card-section>
-    <q-card-section v-if="addLogShow">
-      <addLog></addLog>
     </q-card-section>
   </q-card>
 </template>
 
 <script>
-import addLog from 'components/logs/addLogQuick.vue'
+import modules from '../../modules.js'
 export default {
   name: 'stopwatch',
-  components: {
-    addLog
-  },
   data: () => ({
-    addLogShow: false,
     firstStartDateTime: null,
     time: {
       startDateTime: null,
@@ -76,6 +77,7 @@ export default {
       startDateTime: null,
       pauseDateTime: null,
       time: 0,
+      timeTotal: 0,
       hours: 0,
       minutes: 0,
       seconds: 0,
@@ -84,13 +86,18 @@ export default {
     timer: null
   }),
   computed: {
+    saveLogDisabled() {
+      // return this.timer || !this.time.firstStartDateTime
+      return this.timer
+    },
     timeDisplayed() {
       return `
       ${this.time.hours
         .toString()
         .padStart(2, '0')}:${this.time.minutes
         .toString()
-        .padStart(2, '0')}:${this.time.seconds.toString().padStart(2, '0')}`
+        .padStart(2, '0')}:${this.time.seconds.toString().padStart(2, '0')}
+      `
     }
   },
   methods: {
@@ -102,11 +109,27 @@ export default {
       this.timer = null
     },
     resetTime() {
-      this.time = { ...this.baseTime }
+      this.time = { ...this.timeBase }
       this.firstStartDateTime = null
     },
     saveLog() {
-      this.addLogShow = !this.addLogShow
+      // this.addLogShow = !this.addLogShow
+
+      //end date/time needs to be from time start + total duration,
+      //not to last pause
+      const startDt = this.firstStartDateTime
+        ? this.firstStartDateTime
+        : new Date()
+      const startTime = startDt.getTime()
+      const endTime = this.time.timeTotal + startTime
+      const endDt = new Date(endTime)
+
+      this.$emit('saveLog', {
+        startDate: modules.dateFormat(startDt, 'MM-DD-YYYY'),
+        startTime: modules.dateFormat(startDt, 'hh:mm A'),
+        endDate: modules.dateFormat(endDt, 'MM-DD-YYYY'),
+        endTime: modules.dateFormat(endDt, 'hh:mm A')
+      })
     },
     setTime() {
       const current = new Date().getTime()
@@ -122,6 +145,7 @@ export default {
         milliseconds: Math.floor((timeTotal % 1000) / 100)
       }
       if (this.time.pauseDateTimess) {
+        //disabled? check ttis
         Object.keys(units).forEach(u => (this.time[u] += units[u]))
         // this.time.pauseDateTime = null
       } else {

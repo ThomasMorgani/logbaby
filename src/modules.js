@@ -15,9 +15,18 @@ export default {
     console.log(a)
     return formatDate(qDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
   },
+  dateFormat(date = new Date(), mask = 'YYYY-MM-DD hh:mm A') {
+    if (!isValid(date)) {
+      console.log('ERR: invalid date passed to dateFormat')
+      console.log('rcvd', date)
+      return false
+    } else {
+      return formatDate(date, mask)
+    }
+  },
   dateFormatDisplayed(date) {
     if (!isValid(date)) {
-      console.log('ERR: invalid date passed')
+      console.log('ERR: invalid date passed to dateFormatDisplayed')
       console.log('rcvd', date)
       return false
     } else {

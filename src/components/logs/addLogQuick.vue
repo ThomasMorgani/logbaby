@@ -1,5 +1,5 @@
 <template>
-  <q-card class="addLogCard q-px-md q-py-lg row justify-center">
+  <q-card class="addLogCard q-px-md q-py-lg row justify-start items-end">
     <!-- <q-card-section class="q-mb-lg q-pa-sm text-h5 text-white bg-primary col-12">QUICK LOG</q-card-section> -->
     <menuListAvatar
       :items="logCategories"
@@ -7,7 +7,7 @@
       @selected="selectedCategorySet"
       class="col-12"
     ></menuListAvatar>
-    <div class="col-6 column">
+    <div class="col-5 ">
       <q-input
         v-model="startDate"
         color="primary"
@@ -28,11 +28,7 @@
               transition-hide="scale"
               v-model="modalStartDate"
             >
-              <q-date
-                v-model="startDate"
-                mask="MM-DD-YYYY hh:mm A"
-                @input="setEndDate"
-              >
+              <q-date v-model="startDate" mask="MM-DD-YYYY" @input="setEndDate">
                 <template v-slot:default>
                   <q-btn
                     flat
@@ -47,7 +43,11 @@
             </q-popup-proxy>
           </q-icon>
         </template>
-        <template v-slot:append>
+      </q-input>
+    </div>
+    <div class="col-5 column align-between">
+      <q-input v-model="startTime" color="primary" class="q-pl-md" dense>
+        <template v-slot:prepend>
           <q-icon
             name="fas fa-clock"
             size="xs"
@@ -55,11 +55,7 @@
             class="cursor-pointer"
           >
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time
-                v-model="startDate"
-                mask="MM-DD-YYYY hh:mm A"
-                @input="setEndDate"
-              >
+              <q-time v-model="startTime" mask="hh:mm A" @input="setEndDate">
                 <template v-slot:default>
                   <q-btn flat color="primary" class="float-right" v-close-popup
                     >OK</q-btn
@@ -70,21 +66,23 @@
           </q-icon>
         </template>
       </q-input>
+    </div>
+    <div class="col-2">
       <q-btn
         flat
         size="small"
         color="primary"
-        label="SET TO NOW"
-        @click="setNow('startDate')"
-        class="self-start q-mt-none"
+        icon="mdi-calendar-export"
+        @click="setNow('start')"
+        class="self-start q-mt-none q-ml-md"
       />
     </div>
-    <div class="col-6 column align-between">
+    <div class="col-5  q-mt-md">
       <q-input
         v-model="endDate"
         color="primary"
         label="End"
-        class="q-pl-md"
+        class="q-pr-md"
         dense
       >
         <template v-slot:prepend>
@@ -94,8 +92,12 @@
             color="primary"
             class="cursor-pointer"
           >
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="endDate" mask="MM-DD-YYYY hh:mm A">
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+              v-model="modalEndDate"
+            >
+              <q-date v-model="endDate" mask="MM-DD-YYYY">
                 <template v-slot:default>
                   <q-btn
                     flat
@@ -110,8 +112,11 @@
             </q-popup-proxy>
           </q-icon>
         </template>
-
-        <template v-slot:append>
+      </q-input>
+    </div>
+    <div class="col-5 column align-between">
+      <q-input v-model="endTime" color="primary" class="q-pl-md" dense>
+        <template v-slot:prepend>
           <q-icon
             name="fas fa-clock"
             size="xs"
@@ -119,14 +124,9 @@
             class="cursor-pointer"
           >
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="endDate" mask="MM-DD-YYYY hh:mm A">
+              <q-time v-model="endTime" mask="hh:mm A">
                 <template v-slot:default>
-                  <q-btn
-                    flat
-                    small
-                    color="primary"
-                    class="float-right"
-                    v-close-popup
+                  <q-btn flat color="primary" class="float-right" v-close-popup
                     >OK</q-btn
                   >
                 </template>
@@ -135,24 +135,36 @@
           </q-icon>
         </template>
       </q-input>
+      <!-- <q-popup-proxy transition-show="scale" transition-hide="scale">
+        <q-time v-model="endTime" mask="hh:mm A">
+          <template v-slot:default>
+            <q-btn flat color="primary" class="float-right" v-close-popup
+              >OK</q-btn
+            >
+          </template>
+        </q-time>
+      </q-popup-proxy> -->
+    </div>
+    <div class="col-1 align-right">
       <q-btn
         flat
         size="small"
         color="primary"
-        label="SET TO NOW"
-        @click="setNow('endDate')"
+        icon="mdi-calendar-export"
+        @click="setNow('end')"
         class="self-start q-mt-none q-ml-md"
       />
     </div>
-    <div class="col-8 align-center">
+    <!-- <div class="col-8 align-center" v-if="!isMinimal"> -->
+    <div class="col-12 align-center">
       <q-btn
         :color="saveDisabled ? 'grey' : 'primary'"
         flat
         :disabled="saveDisabled"
         :loading="saveLoading"
-        icon="mdi-plus-circle-outline"
+        :icon="isMinimal ? 'mdi-content-save' : 'mdi-plus-circle-outline'"
         size="md"
-        label="ADD QUICK"
+        :label="isMinimal ? 'ADD LOG' : 'ADD QUICK'"
         @click="submitLog"
         class="text-bold full-width q-mt-lg"
       >
@@ -200,6 +212,7 @@ export default {
   },
   data: () => ({
     endDate: null,
+    endTime: null,
     modalCategories: false,
     modalStartTime: false,
     modalEndDate: false,
@@ -213,7 +226,8 @@ export default {
       color: 'primary',
       id: 1999
     },
-    startDate: null
+    startDate: null,
+    startTime: null
   }),
   computed: {
     ...mapState({
@@ -222,15 +236,41 @@ export default {
     datesValid() {
       // console.log(modules.qDateToTimestamp(this.startDate))
       // let start = new Date(modules.qDateToTimestamp(this.startDate))
-      const end = date.extractDate(this.endDate, 'MM-DD-YYYY hh:mm A')
-      const start = date.extractDate(this.startDate, 'MM-DD-YYYY hh:mm A')
+      const end = date.extractDate(
+        this.endDate + ' ' + this.endTime,
+        'MM-DD-YYYY hh:mm A'
+      )
+      const start = date.extractDate(
+        this.startDate + ' ' + this.startTime,
+        'MM-DD-YYYY hh:mm A'
+      )
       return start <= end
     },
+    dtMaskEndDate() {
+      const now = new Date()
+      const tsYear = this.endDate.substring(6, 10)
+      const nowYear = now.getFullYear()
+      const mask = tsYear == nowYear ? 'MM-DD hh:mm A' : 'MM-DD-YYYY hh:mm A'
+      return mask
+    },
+    dtMaskStartDate() {
+      const now = new Date()
+      const tsYear = this.endDate.substring(6, 10)
+      const nowYear = now.getFullYear()
+      const mask = tsYear == nowYear ? 'MM-DD hh:mm A' : 'MM-DD-YYYY hh:mm A'
+      return mask
+    },
     logData() {
+      const start =
+        this.startDate && this.startTime
+          ? `${this.startDate} ${this.startTime}`
+          : null
+      const end =
+        this.endDate && this.endTime ? `${this.endDate} ${this.endTime}` : null
       return {
         category: this.selectedCategory.id || null,
-        startDate: this.startDate || null,
-        endDate: this.endDate || null
+        startDate: start || null,
+        endDate: end || null
       }
     },
     saveDisabled() {
@@ -238,7 +278,7 @@ export default {
         return 'Select A category'
       }
       if (!this.datesValid) {
-        return 'Dates Invalid'
+        return 'Start time must come before end'
       }
       return false
     }
@@ -256,43 +296,53 @@ export default {
       }
     },
     setNow(target) {
-      if (this[target]) {
-        let timeStamp = Date.now()
-        this[target] = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
+      const now = new Date()
+      if (target === 'start' || target === 'end') {
+        this[`${target}Date`] = formatDate(now, 'MM-DD-YYYY')
+        this[`${target}Time`] = formatDate(now, 'hh:mm A')
+      } else {
+        return
       }
     },
     submitLog() {
       console.log('submit log')
+      console.log(this.logData)
       this.saveLoading = true
       // TODO: set up api, move to store, promise
       setTimeout(() => {
         this.$store
           .dispatch('logAdd', this.logData)
-          .then(() => {
+          .then(resp => {
+            console.log(resp)
             this.saveLoading = false
             // this.reset()
-            this.selectedCategory = this.selectedCategoryDefault
+            if (resp.status === 'success') {
+              this.selectedCategory = this.selectedCategoryDefault
+              this.$emit('logAdded', resp.data)
+            }
           })
           .catch(err => console.log(err))
       }, 1500)
     },
     reset() {
-      let timeStamp = Date.now()
+      const now = Date.now()
       this.selectedCategory = this.selectedCategoryDefault
-      this.startDate = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
-      this.endDate = formatDate(timeStamp, 'MM-DD-YYYY hh:mm A')
+      this.startDate = formatDate(now, 'MM-DD-YYYY')
+      this.startTime = formatDate(now, 'hh:mm A')
+      this.endDate = formatDate(now, 'MM-DD-YYYY')
+      this.endTime = formatDate(now, 'hh:mm A')
     }
   },
   created() {
     // if (this.isMinimal) {
 
     // }
+    this.reset()
     if (this.optionsIn) {
       Object.keys(this.optionsIn).forEach(opt =>
         this[opt] !== undefined ? (this[opt] = this.optionsIn[opt]) : null
       )
     }
-    this.reset()
   }
 }
 </script>

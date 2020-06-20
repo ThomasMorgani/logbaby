@@ -15,6 +15,11 @@ export default {
 }
 </script>
 <style>
+.notificationClass {
+  margin-right: 25px;
+  margin-top: 105px;
+}
+
 .q-card--dark {
   background: #242423;
 }

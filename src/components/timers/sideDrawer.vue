@@ -55,7 +55,7 @@
 
       <q-tab-panels v-model="activeTab" animated>
         <q-tab-panel name="stopwatch">
-          <stopwatch :key="activeTab"></stopwatch>
+          <stopwatch @saveLog="onSaveLog"></stopwatch>
         </q-tab-panel>
         <q-tab-panel name="timer">
           <timer :key="activeTab"></timer>
@@ -72,22 +72,44 @@
         </q-tab-panel>
       </q-tab-panels>
     </div>
+    <q-dialog v-model="modalActive" persistent>
+      <q-card>
+        <q-card-section>
+          <component
+            :is="modalComp"
+            v-bind="modalData"
+            ref="dialogComponent"
+            @logAdded="onLogAdded"
+          ></component>
+        </q-card-section>
+
+        <q-card-actions align="left">
+          <q-btn flat label="CANCEL" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-drawer>
 </template>
 
 <script>
+import addLog from 'components/logs/addLogQuick.vue'
 import stopwatch from 'components/timers/stopwatch'
 import timer from 'components/timers/timer'
 export default {
-  name: 'sideDrawerLogs',
+  name: 'sideDrawerTimers',
   components: {
+    addLog,
     stopwatch,
     timer
   },
   data: () => ({
+    activeTab: 'stopwatch',
     isActive: true,
     isMini: false,
-    activeTab: 'stopwatch',
+    modal: false,
+    modalActive: false,
+    modalComp: '',
+    modalData: {},
     tabItems: [
       {
         color: 'teal',
@@ -112,6 +134,9 @@ export default {
     transLeave: ''
   }),
   computed: {
+    atest() {
+      return this.$refs.dialogComponent || null
+    },
     darkMode() {
       return this.$store.state.mainStore.darkMode
     },
@@ -136,6 +161,26 @@ export default {
       if (this.isMini) {
         this.isMini = false
       }
+    },
+    onLogAdded(e) {
+      if (e) {
+        this.modalActive = false
+        this.$store.dispatch('notify', {
+          message: 'Log Saved',
+          type: 'positive'
+        })
+      }
+      //emit success
+    },
+    onSaveLog({ startTime, endTime }) {
+      this.modalActive = true
+      this.modalComp = 'addLog'
+      this.modalData = {
+        isMinimal: true,
+        optionsIn: { startTime, endTime }
+      }
+      console.log(startTime)
+      console.log(endTime)
     }
   }
 }

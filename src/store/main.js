@@ -1,10 +1,18 @@
 import modules from '../modules.js'
-import { colors } from 'quasar'
+import { colors, Notify } from 'quasar'
 
 export const mainStore = {
   namespaced: false,
   state: {
     darkMode: false,
+    notifiyDefaults: {
+      classes: ['notificationClass'],
+      closeBtn: true,
+      position: 'top-right',
+      progress: true,
+      timeout: 3000,
+      type: 'info'
+    },
     logCategories: [
       {
         icon: 'mdi-sleep',
@@ -70,13 +78,25 @@ export const mainStore = {
       return new Promise(resolve => {
         let id =
           state.logs.length > 0 ? state.logs[state.logs.length - 1].id + 1 : 1
-        commit('pushStateItem', { key: 'logs', value: { ...log, id: id } })
+        const newLog = { ...log, id: id }
+        commit('pushStateItem', { key: 'logs', value: newLog })
         modules.logsSet(state.logs)
-        resolve()
+        resolve({ status: 'success', data: newLog })
       })
     },
     logSelect({ commit }, data) {
       commit('setStateItem', { key: 'logSelected', value: data })
+    },
+    notify({ state }, data) {
+      console.log(data)
+      console.log({
+        ...state.notifiyDefaults,
+        ...data
+      })
+      Notify.create({
+        ...state.notifiyDefaults,
+        ...data
+      })
     },
     themeSet({ commit, state }) {
       return new Promise(resolve => {
